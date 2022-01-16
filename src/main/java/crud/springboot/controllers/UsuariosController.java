@@ -16,5 +16,12 @@ public class UsuariosController {
 	public String usuarioText(@PathVariable String nome) {
 		return "CRUD Spring Boot completo " + nome + "!";
 	}
+	
+	
+	@RequestMapping(value = "/olamundo/{nome}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public String metodoOlaMundo(@PathVariable String nome) {
+		return "Olá Mundo " + nome;
+	}
 
 }
