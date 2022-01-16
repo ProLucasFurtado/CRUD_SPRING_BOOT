@@ -9,29 +9,31 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "usuario")
 @SequenceGenerator(name = "seq_usuario", sequenceName = "seq_usuario", initialValue = 1, allocationSize = 1)
+@Getter
+@Setter
+@NoArgsConstructor @AllArgsConstructor 
+@ToString(exclude="id")
+@EqualsAndHashCode(exclude = {"nome", "idade"})
 public class Usuarios implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
-	@Getter
-	@EqualsAndHashCode.Include  
 	private Long id;
-
-	@Getter
-	@Setter
+	
 	private String nome;
-
-	@Getter
-	@Setter
+	
 	private int idade;
 
 }
