@@ -31,7 +31,7 @@ public class UsuariosController {
 		
 		Usuarios usuario = new Usuarios();
 		usuario.setNome(nome);
-		
+
 		usuarioRepository.save(usuario); //Grava no banco de dados
 		
 		return "Olá Mundo " + nome;
