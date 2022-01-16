@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController //Intercepta todas as requisições que fizer mapeamento (Ex: advindo de celular, navegador, postman, basta fazer a requisição da url mapeada)
 public class UsuariosController {
 
-	@RequestMapping(value = "/{nome}", method = RequestMethod.GET)
+	//Primeiro mapeamento de um endpoint chamado rest api com contexto "mostranome"
+	@RequestMapping(value = "/mostranome/{nome}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public String usuarioText(@PathVariable String nome) {
-		return "Hello " + nome + "!";
+		return "CRUD Spring Boot completo " + nome + "!";
 	}
 
 }
