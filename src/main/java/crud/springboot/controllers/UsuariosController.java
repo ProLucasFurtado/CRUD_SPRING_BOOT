@@ -42,7 +42,7 @@ public class UsuariosController {
 		return "Olá Mundo " + nome;
 	}
 	
-	@GetMapping(value = "listatodos")//Método de API
+	@GetMapping(value = "listatodos")//(Método de API - CONSULTAR TODOS OS USUÁRIOS)
 	@ResponseBody //Retorna os dados para o corpo da resposta
 	public ResponseEntity<List<Usuarios>> listaUsuarios() {
 		
