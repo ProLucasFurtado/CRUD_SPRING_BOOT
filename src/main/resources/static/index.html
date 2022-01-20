@@ -22,7 +22,7 @@
 	
 	<div class="mb-3">
   		<label for="nome" class="form-label">Nome do Usuário</label>
-  		<input type="text" class="form-control" id="nome" placeholder="Informe o nome" required="required">
+  		<input type="text" class="form-control" id="nome" placeholder="Informe o nome" required="required" autofocus="autofocus">
 	</div>
 	
 	<div class="mb-3">
@@ -30,8 +30,10 @@
   		<input type="number" class="form-control" id="idade">
 	</div>
 </form>
-<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
-	
+
+<button type="button" class="btn btn-primary" onclick="salvarUsuario();">Salvar</button>
+<button type="button" class="btn btn-secondary" onclick="limparFormulario();">Novo</button>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -43,7 +45,32 @@
 		var nome = $("#nome").val();
 		var idade = $("#idade").val();
 		
+		$.ajax ({
+			method: "POST",
+			url: "salvar",
+			data: JSON.stringify({
+				id : id,
+				nome : nome,
+				idade : idade
+			}),
+			contentType: "application/json; charset=utf-8",
+			success: function (response) {
+				
+				$("#id").val(response.id);
+				alert("Salvo com sucesso!");
+			}
+		}).fail(function (xhr, status, errorThrown){
+			alert("Erro ao salvar: " + xhr.responseText);
+		});
+		
 	}
+	
+	function limparFormulario() {
+		$(document).ready(function() {
+             $("#formCadastroUser")[0].reset();
+	     });
+	}
+	 
 
 </script>
 
