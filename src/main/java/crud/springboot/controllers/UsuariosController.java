@@ -45,7 +45,7 @@ public class UsuariosController {
 		usuarioRepository.save(usuario); // Grava no banco de dados
 
 		return "Olá Mundo " + nome;
-	}
+	} 
 
 	@GetMapping(value = "listatodos") // (Método de API - CONSULTAR TODOS OS USUÁRIOS)
 	@ResponseBody // Retorna os dados para o corpo da resposta
