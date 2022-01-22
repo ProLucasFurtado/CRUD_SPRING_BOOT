@@ -12,13 +12,20 @@
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
 
+<!--Estilo customizado-->
+<link rel="stylesheet" type="text/css" href="css/estilo.css">
+
 <title>CRUD completo</title>
+
+<style type="text/css">
+</style>
+
 </head>
 
 <body>
 
 	<h3>Projeto Spring Boot - CRUD completo</h3>
-	<form id="formCadastroUser">
+	<form id="formCadastroUser" name ="formCadUser">
 		<div class="mb-3">
 			<label for="id" class="form-label">ID</label> <input type="text"
 				class="form-control" id="id" readonly="readonly">
@@ -66,20 +73,22 @@
 						<button type="button" class="btn btn-success"
 							onclick="pesquisarUsuario();">Buscar</button>
 					</form>
+					<div id="resultados">
+						<table class="table table-striped" id="tabelaResultados">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Nome</th>
+									<th scope="col">Idade</th>
+									<th scope="col">Editar</th>
+									<th scope="col">Deletar</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
 
-					<table class="table table-striped" id="tabelaResultados">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Nome</th>
-								<th scope="col">Idade</th>
-								<th scope="col">Editar</th>
-								<th scope="col">Deletar</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
@@ -100,12 +109,12 @@
 		crossorigin="anonymous"></script>
 
 	<script type="text/javascript">
-		
 		function pesquisarUsuario() {
 			var nome = $('#buscarNome').val();
 
 			if (nome != null && nome.trim() != '') {
-				$.ajax(
+				$
+						.ajax(
 								{
 									method : "GET",
 									url : "buscarPorNome",
@@ -128,9 +137,9 @@
 																	+ response[i].idade
 																	+ '</td><td><button type="button" class="btn btn-primary" onclick="editarUsuario('
 																	+ response[i].id
-																	+')">Editar</button></td><td><button type="button" class="btn btn-danger" onclick="deletarUsuario('
+																	+ ')">Editar</button></td><td><button type="button" class="btn btn-danger" onclick="deletarUsuario('
 																	+ response[i].id
-																	+')">Deletar</button></td></tr>');
+																	+ ')">Deletar</button></td></tr>');
 										}
 									}
 								}).fail(
@@ -140,59 +149,76 @@
 								});
 			}
 		}
-		
+
 		function editarUsuario(id) {
-			$.ajax(
-					{
-						method : "GET",
-						url : "buscaruserid",
-						data : "iduser=" + id,
-						success : function(response) {
-							
-							$("#id").val(response.id);
-							$("#nome").val(response.nome);
-							$("#idade").val(response.idade);
-							
-							$("#modalPesquisarUsuario").modal("hide");
-						}
-					}).fail(
-					function(xhr, status, errorThrown) {
-						alert("Erro ao buscar usuário por id: "
-								+ xhr.responseText);
-			});
-
-		}
-		
-		function salvarUsuario() {
-			var id = $("#id").val();
-			var nome = $("#nome").val();
-			var idade = $("#idade").val();
-
 			$.ajax({
-				method : "POST",
-				url : "salvar",
-				data : JSON.stringify({
-					id : id,
-					nome : nome,
-					idade : idade
-				}),
-				contentType : "application/json; charset=utf-8",
+				method : "GET",
+				url : "buscaruserid",
+				data : "iduser=" + id,
 				success : function(response) {
 
 					$("#id").val(response.id);
-					alert("Salvo com sucesso!");
+					$("#nome").val(response.nome);
+					$("#idade").val(response.idade);
+
+					$("#modalPesquisarUsuario").modal("hide");
 				}
 			}).fail(function(xhr, status, errorThrown) {
-				alert("Erro ao salvar: " + xhr.responseText);
+				alert("Erro ao buscar usuário por id: " + xhr.responseText);
 			});
 
 		}
-	 
+
+		function salvarUsuario() {
+			var id = $("#id").val();
+			var nome = $("#nome").val().trim();
+			var idade = $("#idade").val();
+
+			if (nome == null || nome.trim() == "") {
+				$("#nome").focus();
+				alert("Favor, informar o seu nome!");
+				return false;
+			}
+			
+			else if (idade == "") {
+				$("#idade").focus();
+				alert("Favor, informar a sua idade!");
+				return false;
+			} 
+			 
+				$.ajax({
+					method : "POST",
+					url : "salvar",
+					data : JSON.stringify({
+						id : id,
+						 nome : nome,
+						idade : idade
+					}),
+					contentType : "application/json; charset=utf-8",
+					success : function(response) {
+
+						$("#id").val(response.id);
+						limparFormulario();
+						alert("Salvo com sucesso!");
+					}
+				}).fail(function(xhr, status, errorThrown) {
+					alert("Erro ao salvar: " + xhr.responseText);
+				});
+
+		}
 
 		function botaoDeletarUsuario() {
 			var id = $("#id").val();
-			limparFormulario();
-			deletarUsuario(id);
+
+			if (id == "") {
+				alert("Favor, coloque seu código identificador!");
+				return false;
+			}
+
+			else if (id != null && id.trim() != '') {
+				limparFormulario();
+				deletarUsuario(id);
+			}
 		}
 
 		function deletarUsuario(id) {
@@ -220,9 +246,10 @@
 		function limparFormulario() {
 			$(document).ready(function() {
 				$("#formCadastroUser")[0].reset();
+				formCadUser.nome.focus();
 			});
 		}
 	</script>
 
 </body>
-</html>
+</html> 
