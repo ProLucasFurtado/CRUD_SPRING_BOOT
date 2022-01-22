@@ -41,6 +41,8 @@
 		onclick="salvarUsuario();">Salvar</button>
 	<button type="button" class="btn btn-secondary"
 		onclick="limparFormulario();">Novo</button>
+	<button type="button" class="btn btn-warning"
+		onclick="botaoDeletarUsuario();">Deletar</button>
 	<button type="button" class="btn btn-danger" data-bs-toggle="modal"
 		data-bs-target="#modalPesquisarUsuario">Pesquisar</button>
 
@@ -71,7 +73,6 @@
 								<th scope="col">ID</th>
 								<th scope="col">Nome</th>
 								<th scope="col">Idade</th>
-								<th scope="col">Salvar</th>
 								<th scope="col">Editar</th>
 								<th scope="col">Deletar</th>
 							</tr>
@@ -120,7 +121,9 @@
 										for (var i = 0; i < response.length; i++) {
 											$('#tabelaResultados > tbody')
 													.append(
-															'<tr><td>'
+															'<tr id="'
+																	+ response[i].id
+																	+ '"><td>'
 																	+ response[i].id
 																	+ '</td><td>'
 																	+ response[i].nome
@@ -140,7 +143,6 @@
 								});
 			}
 		}
-
 		
 		function editarUsuario(id) {
 			$.ajax(
@@ -188,11 +190,36 @@
 			});
 
 		}
-		
-		function deletarUsuario() {
-			
+	 
+
+		function botaoDeletarUsuario() {
+			var id = $("#id").val();
+			limparFormulario();
+			deletarUsuario(id);
 		}
-		
+
+		function deletarUsuario(id) {
+
+			if (confirm('Deseja realmente deletar?')) {
+
+				$.ajax({
+					method : "DELETE",
+					url : "deletar",
+					data : "iduser=" + id,
+					success : function(response) {
+
+						$("#" + id).remove();
+						alert(response);
+					}
+				}).fail(
+						function(xhr, status, errorThrown) {
+							alert("Erro ao deletar usuário por id: "
+									+ xhr.responseText);
+						});
+
+			}
+		}
+
 		function limparFormulario() {
 			$(document).ready(function() {
 				$("#formCadastroUser")[0].reset();

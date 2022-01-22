@@ -71,7 +71,7 @@ public class UsuariosController {
 
 		usuarioRepository.deleteById(iduser);
 
-		return new ResponseEntity<String>("Usuário deletado com sucesso", HttpStatus.OK);
+		return new ResponseEntity<String>("Usuário deletado com sucesso!!!", HttpStatus.OK);
 	}
 
 	@PutMapping(value = "atualizar") // Mapeia a url
