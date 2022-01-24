@@ -14,9 +14,15 @@
 	<packaging>jar</packaging>
 	<name>crud-spring-boot-completo</name>
 	<description>Projeto Spring Boot - CRUD completo</description>
+	
 	<properties>
 		<java.version>11</java.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.complie.target>11</maven.complie.target>
+		<maven.test.skip>true</maven.test.skip>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
